@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <!-- Standard console output -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss} [%thread] %-5level %logger{26} - %msg%n%rEx</pattern>
+        </encoder>
+    </appender>
+    
+    <logger name="fr.iocean.framework">
+        <level value="debug" />
+    </logger>
+
+    <logger name="org.springframework">
+        <level value="warn" />
+    </logger>
+
+    <logger name="org.springframework.web">
+        <level value="warn" />
+    </logger>
+
+    <logger name="org.hibernate">
+        <level value="warn" />
+    </logger>
+
+    <logger name="org.hibernate.SQL">
+        <level value="warn" />
+    </logger>
+
+    <root level="debug">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>

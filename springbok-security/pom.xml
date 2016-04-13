@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>fr.iocean.framework</groupId>
+	<artifactId>springbok-security</artifactId>
+	<version>0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>springbok-security</name>
+	<description>SpringBok security module</description>
+
+	<parent>
+		<groupId>fr.iocean</groupId>
+		<artifactId>springbok-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<properties>
+		<lombok.version>1.16.6</lombok.version>
+		<testng.version>6.9.9</testng.version>
+		<apache-commons-codec.version>1.6</apache-commons-codec.version>
+		<springbok-core.version>0.1-SNAPSHOT</springbok-core.version>
+        <springbok-test.version>0.1-SNAPSHOT</springbok-test.version>
+	</properties>
+
+	<dependencies>
+		<!-- IOcean -->
+        <dependency>
+			<groupId>fr.iocean.framework</groupId>
+			<artifactId>springbok-core</artifactId>
+			<version>${springbok-core.version}</version>
+		</dependency>
+        
+        <!-- Lombok -->
+        <dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>${lombok.version}</version>
+			<scope>provided</scope>
+		</dependency>
+        
+        <!-- Utils -->
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>${apache-commons-codec.version}</version>
+		</dependency>
+
+        <!-- Spring -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+        
+        <!-- Tests -->
+        <dependency>
+			<groupId>fr.iocean.framework</groupId>
+			<artifactId>springbok-test</artifactId>
+			<version>${springbok-test.version}</version>
+            <scope>test</scope>
+		</dependency>
+	</dependencies>
+	
+</project>
