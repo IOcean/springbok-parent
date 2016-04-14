@@ -22,6 +22,8 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
+
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.testng.annotations.Test;
 
 @SpringApplicationConfiguration(classes = SpringbokCoreApplication.class)
@@ -66,14 +68,14 @@ public class ResourceIntegrationTest extends IntegrationTest {
     }
     
     @Test
-    public void create_invalidResource_returnsHttpBadREquest() throws Exception {
+    public void create_invalidResource_returnsPreconditionFailed() throws Exception {
         User invalidUser = new User().withName("");
         
         mockMvc
             .perform(post("/user")
             .contentType(MediaType.APPLICATION_JSON)
             .content(new JsonString(invalidUser).value()))
-            .andExpect(status().isBadRequest());
+            .andExpect(status().isPreconditionFailed());
     }
     
     @Test
@@ -226,7 +228,7 @@ public class ResourceIntegrationTest extends IntegrationTest {
     }
     
     @Test
-    public void update_invalidUpdatedResource_returnsHttpBadRequest() throws Exception {
+    public void update_invalidUpdatedResource_returnsPreconditionFailed() throws Exception {
         User invalidUpdatedUser = repository.findOne(1L);
         invalidUpdatedUser.setName("");
         
@@ -234,7 +236,28 @@ public class ResourceIntegrationTest extends IntegrationTest {
             .perform(put("/user/" + invalidUpdatedUser.getId())
             .contentType(MediaType.APPLICATION_JSON)
             .content(new JsonString(invalidUpdatedUser).value()))
-            .andExpect(status().isBadRequest());
+                .andDo(MockMvcResultHandlers.print())
+            .andExpect(status().isPreconditionFailed())
+            .andExpect(jsonPath("$.bindingResult[0].defaultMessage").value("ne peut être vide"))
+            .andExpect(jsonPath("$.bindingResult[0].objectName").value("user"))
+            .andExpect(jsonPath("$.bindingResult[0].field").value("name"));
+    }
+
+    @Test
+    public void update_invalidUpdatedResource_returnsPreconditionFailed_en_locale() throws Exception {
+        User invalidUpdatedUser = repository.findOne(1L);
+        invalidUpdatedUser.setName("");
+
+        mockMvc
+                .perform(put("/user/" + invalidUpdatedUser.getId())
+                        .header("Accept-Language", "en")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new JsonString(invalidUpdatedUser).value()))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isPreconditionFailed())
+                .andExpect(jsonPath("$.bindingResult[0].defaultMessage").value("can't be blank"))
+                .andExpect(jsonPath("$.bindingResult[0].objectName").value("user"))
+                .andExpect(jsonPath("$.bindingResult[0].field").value("name"));
     }
     
     @Test

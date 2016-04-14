@@ -1,6 +1,6 @@
 package fr.iocean.framework.core.resource.controller;
 
-import fr.iocean.framework.core.resource.exception.PageRequestException;
+import fr.iocean.framework.core.exception.PageRequestException;
 import java.io.Serializable;
 import org.springframework.data.domain.Page;
 

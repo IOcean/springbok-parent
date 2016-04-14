@@ -1,13 +1,12 @@
 package fr.iocean.framework.security.controller;
 
 import fr.iocean.framework.core.resource.controller.ResourceController;
-import fr.iocean.framework.core.resource.exception.PageRequestException;
+import fr.iocean.framework.core.exception.PageRequestException;
 import fr.iocean.framework.core.util.PageUtils;
 import fr.iocean.framework.security.model.credential.Credential;
 import fr.iocean.framework.security.service.CredentialService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

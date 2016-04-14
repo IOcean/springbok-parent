@@ -1,4 +1,4 @@
-package fr.iocean.framework.core.resource.exception;
+package fr.iocean.framework.core.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

@@ -1,6 +1,6 @@
 package fr.iocean.framework.core.util;
 
-import fr.iocean.framework.core.resource.exception.PageRequestException;
+import fr.iocean.framework.core.exception.PageRequestException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

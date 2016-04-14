@@ -1,7 +1,7 @@
 package fr.iocean.framework.security.controller;
 
 import fr.iocean.framework.core.resource.controller.DeletableResourceController;
-import fr.iocean.framework.core.resource.exception.ResourceNotFoundException;
+import fr.iocean.framework.core.exception.ResourceNotFoundException;
 import fr.iocean.framework.security.model.account.Account;
 import fr.iocean.framework.security.service.SecurityService;
 import fr.iocean.framework.security.service.AccountService;

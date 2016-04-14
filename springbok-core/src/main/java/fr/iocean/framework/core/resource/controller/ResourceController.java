@@ -1,6 +1,6 @@
 package fr.iocean.framework.core.resource.controller;
 
-import fr.iocean.framework.core.resource.exception.PageRequestException;
+import fr.iocean.framework.core.exception.PageRequestException;
 import fr.iocean.framework.core.resource.model.PersistentResource;
 import fr.iocean.framework.core.resource.service.FullCrudService;
 import fr.iocean.framework.core.util.PageUtils;

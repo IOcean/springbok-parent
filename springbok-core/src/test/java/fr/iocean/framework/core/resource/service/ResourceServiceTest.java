@@ -1,7 +1,7 @@
 package fr.iocean.framework.core.resource.service;
 
 import fr.iocean.framework.core.SpringbokCoreApplication;
-import fr.iocean.framework.core.resource.exception.ResourceNotFoundException;
+import fr.iocean.framework.core.exception.ResourceNotFoundException;
 import fr.iocean.framework.core.resource.mock.User;
 import fr.iocean.framework.core.resource.mock.UserRepository;
 import fr.iocean.framework.core.resource.mock.UserService;
