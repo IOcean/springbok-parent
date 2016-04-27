@@ -3,6 +3,7 @@ package fr.iocean.framework.security.authentication.http;
 import fr.iocean.framework.security.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,6 +20,9 @@ public abstract class HttpBasicAuthentication extends WebSecurityConfigurerAdapt
     @Autowired
     private AccountService userDetailsService;
 
+    @Autowired
+    private HttpBasicEntryPoint authenticationEntryPoint;
+    
     @Bean
     protected PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(4);
@@ -41,10 +45,13 @@ public abstract class HttpBasicAuthentication extends WebSecurityConfigurerAdapt
             .authorizeRequests()
             .antMatchers("/api/public/**")
             .permitAll()
+            .antMatchers(HttpMethod.OPTIONS)
+            .permitAll()
             .anyRequest()
             .authenticated()
             .and()
             .httpBasic()
+            .authenticationEntryPoint(authenticationEntryPoint)
             .and()
             .csrf()
             .disable();
