@@ -1,5 +1,6 @@
 package fr.iocean.framework.security.service;
 
+import fr.iocean.framework.core.exception.ResourceNotFoundException;
 import fr.iocean.framework.core.resource.service.ResourceService;
 import fr.iocean.framework.security.model.credential.Credential;
 import fr.iocean.framework.security.model.profile.Profile;
@@ -32,6 +33,17 @@ public class AccountService extends ResourceService<Account, Long, AccountReposi
     @Autowired
     private ProfileCredentialRepository profileCredentialRepository;
 
+    @Override
+    public Account update(Long id, Account resource) {
+        Account accountToUpdate = findOne(id);
+        
+        if (accountToUpdate != null) {
+            resource.setPassword(accountToUpdate.getPassword());
+        }
+        
+        return super.update(id, resource);
+    }
+    
     @Override
     public org.springframework.security.core.userdetails.UserDetails loadUserByUsername(String username) {
         Account account = repository.findByUsernameIgnoreCaseAndEnabled(username, true);
