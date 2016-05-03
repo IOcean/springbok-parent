@@ -6,7 +6,7 @@
     <groupId>fr.iocean.framework</groupId>
     <artifactId>springbok-test</artifactId>
     <name>springbok-test</name>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <description>SpringBok test module</description>
 
@@ -65,5 +65,4 @@
             <artifactId>json-path</artifactId>
         </dependency>
     </dependencies>
-    
 </project>

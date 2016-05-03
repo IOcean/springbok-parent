@@ -5,7 +5,7 @@
 
 	<groupId>fr.iocean.framework</groupId>
 	<artifactId>springbok-security</artifactId>
-	<version>0.1-SNAPSHOT</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>springbok-security</name>
@@ -21,8 +21,6 @@
 		<lombok.version>1.16.6</lombok.version>
 		<testng.version>6.9.9</testng.version>
 		<apache-commons-codec.version>1.6</apache-commons-codec.version>
-		<springbok-core.version>0.1-SNAPSHOT</springbok-core.version>
-        <springbok-test.version>0.1-SNAPSHOT</springbok-test.version>
 	</properties>
 
 	<dependencies>
@@ -30,7 +28,7 @@
         <dependency>
 			<groupId>fr.iocean.framework</groupId>
 			<artifactId>springbok-core</artifactId>
-			<version>${springbok-core.version}</version>
+			<version>${project.version}</version>
 		</dependency>
         
         <!-- Lombok -->
@@ -58,7 +56,7 @@
         <dependency>
 			<groupId>fr.iocean.framework</groupId>
 			<artifactId>springbok-test</artifactId>
-			<version>${springbok-test.version}</version>
+			<version>${project.version}</version>
             <scope>test</scope>
 		</dependency>
 	</dependencies>
