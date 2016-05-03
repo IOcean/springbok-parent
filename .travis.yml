@@ -2,3 +2,9 @@ language: java
 
 jdk:
   - oraclejdk8
+
+notifications:
+  email:
+    - fpaillet@iocean.fr
+    - blebail@iocean.fr
+    - ctamisier@iocean.fr
