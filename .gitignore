@@ -48,6 +48,7 @@ $RECYCLE.BIN/
 !.bowerrc
 !.jshintrc
 !.gitattributes
+!.travis.yml
 *~
 src/liferay.properties
 target/
