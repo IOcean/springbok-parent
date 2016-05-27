@@ -45,6 +45,8 @@ public abstract class HttpBasicAuthentication extends WebSecurityConfigurerAdapt
             .authorizeRequests()
             .antMatchers("/api/public/**")
             .permitAll()
+            .antMatchers("/ui/**")
+            .permitAll()
             .antMatchers(HttpMethod.OPTIONS)
             .permitAll()
             .anyRequest()
