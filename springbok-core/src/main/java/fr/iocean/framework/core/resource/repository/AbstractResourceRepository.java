@@ -4,6 +4,9 @@ import fr.iocean.framework.core.resource.model.PersistentResource;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.ProjectionList;
+import org.hibernate.criterion.Projections;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -11,6 +14,9 @@ import org.springframework.data.domain.Sort;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -62,4 +68,26 @@ public abstract class AbstractResourceRepository<T extends PersistentResource> {
         }
     }
 
+    public ProjectionList createProjectionList(Pageable pageable) {
+        ProjectionList projectionList = Projections.projectionList()
+                .add(Projections.property("id"));
+        if (pageable != null && pageable.getSort() != null) {
+            pageable.getSort().forEach(sort -> {
+                if (!"id".equals(sort.getProperty())) {
+                    projectionList.add(Projections.property(sort.getProperty()));
+                }
+            });
+        }
+        return projectionList;
+    }
+
+    public List<Object> extractIds(Page<Object> page) {
+        return page.getContent().stream().map(object -> {
+            if (object instanceof Object[]) {
+                return ((Object[]) object)[0];
+            }
+            return object;
+        }).collect(Collectors.toList());
+    }
+    
 }
