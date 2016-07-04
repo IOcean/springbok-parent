@@ -13,7 +13,6 @@ public class MessageService {
     MessageSource messageSource;
 
     public String getMessage(String code) {
-        System.out.println("locale ==> " + LocaleContextHolder.getLocale());
         return messageSource.getMessage(code, null, LocaleContextHolder.getLocale());
     }
 
