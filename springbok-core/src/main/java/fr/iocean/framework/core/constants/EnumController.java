@@ -1,13 +1,13 @@
 package fr.iocean.framework.core.constants;
 
+import fr.iocean.framework.core.i18n.MessageService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AssignableTypeFilter;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.annotation.PostConstruct;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,19 +20,17 @@ import java.util.Map;
 @Slf4j
 public class EnumController {
 
-    private final Map<String, List<EnumWithLang>> enums = new HashMap<>();
-
-    @PostConstruct
-    public void preLoad() {
-        loadRestConstants();
-    }
+    @Autowired
+    MessageService messageService;
+    
 
     @RequestMapping
     public Map<String, List<EnumWithLang>> getValuesForEnum() {
-        return enums;
+        return loadRestConstants();
     }
 
     public Map<String, List<EnumWithLang>> loadRestConstants() {
+        Map<String, List<EnumWithLang>> enums = new HashMap<>();
         ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
         scanner.addIncludeFilter(new AssignableTypeFilter(RestEnum.class));
         try {
@@ -41,7 +39,8 @@ public class EnumController {
                 if (cls.isEnum()) {
                     List<EnumWithLang> values = new ArrayList<>();
                     for (Object enumConstant : cls.getEnumConstants()) {
-                        values.add(new EnumWithLang(((RestEnum) enumConstant).getI18nKey(), enumConstant));
+                        values.add(new EnumWithLang(
+                                messageService.getMessage(((RestEnum) enumConstant).getI18nKey()), enumConstant));
                     }
                     enums.put(cls.getSimpleName(), values);
                 }
@@ -55,11 +54,11 @@ public class EnumController {
     }
 
     static class EnumWithLang {
-        public final String lang;
+        public final String label;
         public final Object value;
 
-        public EnumWithLang(String lang, Object value) {
-            this.lang = lang;
+        public EnumWithLang(String label, Object value) {
+            this.label = label;
             this.value = value;
         }
     }

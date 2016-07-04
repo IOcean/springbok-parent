@@ -8,6 +8,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.testng.annotations.Test;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -22,17 +23,29 @@ public class EnumControllerTest extends IntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8"))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(jsonPath("$.TestEnum", hasSize(3)))
+                .andExpect(jsonPath("$.TestEnum", hasSize(2)))
                 .andExpect(content().string(containsString("VALEUR_1")))
                 .andExpect(content().string(containsString("VALEUR_2")))
-                .andExpect(content().string(containsString("my.key.1")))
-                .andExpect(content().string(containsString("my.key.2")));
+                .andExpect(content().string(containsString("clé 1")))
+                .andExpect(content().string(containsString("clé 2")));
     }
 
+    @Test
+    public void test_Enums_en_locale() throws Exception {
+        this.mockMvc.perform(get("/api/public/constants")
+                .header("Accept-Language", "en")
+                .characterEncoding("UTF-8"))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(jsonPath("$.TestEnum", hasSize(2)))
+                .andExpect(content().string(containsString("VALEUR_1")))
+                .andExpect(content().string(containsString("VALEUR_2")))
+                .andExpect(content().string(containsString("key 1")))
+                .andExpect(content().string(containsString("key 2")));
+    }
+    
     enum TestEnum implements RestEnum {
         VALEUR_1("my.key.1"),
-        VALEUR_2("my.key.2"),
-        VAL_UTF8("my.key.utf8");
+        VALEUR_2("my.key.2");
 
         private final String i18nKey;
 
