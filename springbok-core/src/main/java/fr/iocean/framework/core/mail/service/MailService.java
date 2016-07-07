@@ -10,7 +10,6 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
@@ -44,9 +43,6 @@ public class MailService {
 
     private static final String DEFAULT_ENCODING = "UTF-8";
     
-    @Autowired
-    private MailProperties mailProperties;
-
     @Autowired
     private JavaMailSenderImpl sender;
 
