@@ -9,7 +9,10 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+
+import java.util.Locale;
 
 /**
  * Provides a set up for a secured integration testing of a resource endpoint.
@@ -30,5 +33,10 @@ public abstract class SecuredIntegrationTest extends AbstractTransactionalTestNG
                 .webAppContextSetup(webApplicationContext)
                 .apply(springSecurity())
                 .build();
+    }
+
+    @BeforeClass
+    protected void setUpLocale() {
+        Locale.setDefault(Locale.FRANCE);
     }
 }
