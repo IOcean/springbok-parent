@@ -20,6 +20,10 @@ public class RestExceptionService {
         throw new RestException(createErrors(messageService.getMessage(code, arguments)));
     }
     
+    public void throwSimpleRestException(String message) {
+        throw new RestException(createErrors(message));
+    }
+    
     public static RestErrors createErrors(BindingResult bindingResult) {
         return new RestErrors(null, bindingResult.getAllErrors());
     }
