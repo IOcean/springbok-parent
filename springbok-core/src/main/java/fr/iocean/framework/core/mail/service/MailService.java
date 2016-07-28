@@ -105,16 +105,13 @@ public class MailService {
     }
 
     public void send(MimeMessage message, MimeMessageHelper helper) {
-        try {
-            if (!StringUtils.isEmpty(fakeAddress)) {
-                helper.setTo(fakeAddress);
-            }
+        if (!StringUtils.isEmpty(fakeAddress)) {
+            Iterable<String> fakeAddresses = getRecipientsFromString(fakeAddress);
+            setFakeTo(helper, fakeAddresses);
+        }
 
-            if (isEnable() && getCountRecipient(message) > 0) {
-                sender.send(message);
-            }
-        } catch (MessagingException e) {
-            throw new IllegalArgumentException(e);
+        if (isEnable() && getCountRecipient(message) > 0) {
+            sender.send(message);
         }
     }
 
