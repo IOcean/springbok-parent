@@ -15,7 +15,7 @@ public class XLSImportTest {
     @Test
     public void importXLSFile() throws Exception {
         String fileName = "import.xlsx";
-        InputStream xlsInputStream = XLSImportIOUtils.toInputStream(getClass(), fileName);
+        InputStream xlsInputStream = XLSImportIOUtils.toInputStream(getClass(), "/xlsimport", fileName);
         XLSImportSample xlsImportSample = new XLSImportSample(xlsInputStream, fileName);
 
         xlsImportSample.importData();
@@ -39,7 +39,7 @@ public class XLSImportTest {
     @Test
     public void importXLSFileWithErrors() throws Exception {
         String fileName = "importWithErrors.xlsx";
-        InputStream xlsInputStream = XLSImportIOUtils.toInputStream(getClass(), fileName);
+        InputStream xlsInputStream = XLSImportIOUtils.toInputStream(getClass(), "/xlsimport", fileName);
         XLSImportSample xlsImportSample = new XLSImportSample(xlsInputStream, fileName);
 
         xlsImportSample.importData();

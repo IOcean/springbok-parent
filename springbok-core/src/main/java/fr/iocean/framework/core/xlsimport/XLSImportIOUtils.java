@@ -12,8 +12,8 @@ import java.nio.file.Paths;
  */
 public class XLSImportIOUtils {
 
-    public static InputStream toInputStream(Class klass, String fileName) throws URISyntaxException, IOException {
-        Path path = Paths.get(klass.getResource("/xlsimport").toURI()).resolve(fileName);
+    public static InputStream toInputStream(Class klass, String pathStr, String fileName) throws URISyntaxException, IOException {
+        Path path = Paths.get(klass.getResource(pathStr).toURI()).resolve(fileName);
         return Files.newInputStream(path);
     }
 }
