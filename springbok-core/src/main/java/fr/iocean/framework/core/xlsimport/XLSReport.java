@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import lombok.Getter;
 import org.springframework.util.CollectionUtils;
 
-import java.io.File;
 import java.io.Serializable;
 import java.util.List;
 
@@ -20,10 +19,6 @@ public class XLSReport implements Serializable {
 
     protected List<XLSLineError> errors;
     protected List<String> globalErrors;
-
-    public XLSReport(final File file) {
-        this(file.getName());
-    }
 
     public XLSReport(final String fileName) {
         this.fileName = fileName;

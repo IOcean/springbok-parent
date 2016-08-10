@@ -7,7 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
-import java.io.File;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -24,8 +24,8 @@ public class XLSImportSample extends XLSImport<XLSReportSample> {
 
     private boolean postProcessDone = false;
 
-    public XLSImportSample(File file) {
-        super(file, new XLSReportSample(file));
+    public XLSImportSample(InputStream xlsInputStream, String fileName) {
+        super(xlsInputStream, new XLSReportSample(fileName));
         map = new HashMap<>();
     }
 

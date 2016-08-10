@@ -8,7 +8,9 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
-import java.io.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -17,28 +19,13 @@ import java.util.Optional;
 @Slf4j
 public abstract class XLSImport<R extends XLSReport> {
 
-    private InputStream input;
+    private InputStream xlsInputStream;
     protected List<Short> columnIndexes;
     protected R report;
     private Iterator<Row> rowIterator;
 
-    /**
-     * Init the import, call processData() to execute it.
-     *
-     * @param xlsFile the xlsFile to process the import from
-     * @param report  the report of the import
-     */
-    protected XLSImport(File xlsFile, R report) {
-        try {
-            input = new FileInputStream(xlsFile);
-        } catch (FileNotFoundException e) {
-            log.error("The file was not found : " + e.getMessage());
-            report.addGlobalError("xlsimport.error.internal");
-        }
-        init(report);
-    }
-
-    private void init(R report) {
+    protected XLSImport(InputStream xlsInputStream, R report) {
+        this.xlsInputStream = xlsInputStream;
         this.columnIndexes = new ArrayList<>();
         this.report = report;
     }
@@ -48,8 +35,8 @@ public abstract class XLSImport<R extends XLSReport> {
      */
     public void importData() {
         try {
-            if (input != null) {
-                Workbook workbook = WorkbookFactory.create(input);
+            if (xlsInputStream != null) {
+                Workbook workbook = WorkbookFactory.create(xlsInputStream);
                 for (int i = 0; i < workbook.getNumberOfSheets(); i++) {
                     processData(workbook, i);
                 }
@@ -122,6 +109,7 @@ public abstract class XLSImport<R extends XLSReport> {
 
     /**
      * Add an error into the report if the given value is null or empty
+     *
      * @param value
      * @param lineNumber
      * @param errorMessageKey

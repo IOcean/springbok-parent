@@ -6,6 +6,7 @@ import fr.iocean.framework.core.xlsimport.model.XLSReportSample;
 import org.assertj.core.api.Assertions;
 import org.testng.annotations.Test;
 
+import java.io.FileInputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Iterator;
@@ -16,7 +17,7 @@ public class XLSImportTest {
     @Test
     public void importXLSFile() throws Exception {
         Path path = Paths.get(getClass().getResource("/xlsimport/import.xlsx").toURI());
-        XLSImportSample xlsImportSample = new XLSImportSample(path.toFile());
+        XLSImportSample xlsImportSample = new XLSImportSample(new FileInputStream(path.toFile()), "import.xlsx");
         xlsImportSample.importData();
 
         Map<Integer, NumericAndTextAndEmpty> map = xlsImportSample.getMap();
@@ -38,7 +39,7 @@ public class XLSImportTest {
     @Test
     public void importXLSFileWithErrors() throws Exception {
         Path path = Paths.get(getClass().getResource("/xlsimport/importWithErrors.xlsx").toURI());
-        XLSImportSample xlsImportSample = new XLSImportSample(path.toFile());
+        XLSImportSample xlsImportSample = new XLSImportSample(new FileInputStream(path.toFile()), "import.xlsx");
         xlsImportSample.importData();
 
         Map<Integer, NumericAndTextAndEmpty> map = xlsImportSample.getMap();
