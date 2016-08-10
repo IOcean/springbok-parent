@@ -47,8 +47,8 @@ public class XLSImportSample extends XLSImport<XLSReportSample> {
         String textAsString = XLSImportUtils.parseCell(row, COLONNE_TEXT);
         String empty = XLSImportUtils.parseCell(row, COLONNE_EMPTY);
 
-        Optional<Float> numeric = parseFloat(numericAsString, lineNumber, "xlsimport.error.invalidvalue");
-        String text = requireString(textAsString, lineNumber, "xlsimport.error.invalidvalue");
+        Optional<Float> numeric = XLSImportUtils.parseFloatAndReport(numericAsString, lineNumber, "xlsimport.error.invalidvalue", report);
+        String text = XLSImportUtils.requireStringAndReport(textAsString, lineNumber, "xlsimport.error.invalidvalue", report);
 
         if (numeric.isPresent()) {
             NumericAndTextAndEmpty numericAndTextAndEmpty = new NumericAndTextAndEmpty(numeric.get(), text, empty);

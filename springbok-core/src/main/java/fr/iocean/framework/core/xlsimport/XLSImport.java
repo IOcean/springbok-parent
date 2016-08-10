@@ -98,30 +98,6 @@ public abstract class XLSImport<R extends XLSReport> {
         }
     }
 
-    public Optional<Float> parseFloat(String value, int lineNumber, String errorMessageKey) {
-        try {
-            return Optional.of(Float.parseFloat(value));
-        } catch (Exception e) {
-            report.addError(lineNumber, errorMessageKey);
-            return Optional.empty();
-        }
-    }
-
-    /**
-     * Add an error into the report if the given value is null or empty
-     *
-     * @param value
-     * @param lineNumber
-     * @param errorMessageKey
-     * @return the given value
-     */
-    public String requireString(String value, int lineNumber, String errorMessageKey) {
-        if (Strings.isNullOrEmpty(value)) {
-            report.addError(lineNumber, errorMessageKey);
-        }
-        return value;
-    }
-
     /**
      * Should we process the given XLS sheet.
      *

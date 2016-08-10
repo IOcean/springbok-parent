@@ -25,6 +25,39 @@ public class XLSImportUtils {
         return Strings.emptyToNull(stringCellValue);
     }
 
+    public static Optional<Float> parseFloatAndReport(String value, int lineNumber, String errorMessageKey, XLSReport report) {
+        try {
+            return Optional.of(Float.parseFloat(value));
+        } catch (Exception e) {
+            report.addError(lineNumber, errorMessageKey);
+            return Optional.empty();
+        }
+    }
+
+    public static Optional<Integer> parseIntegerAndReport(String value, int lineNumber, String errorMessageKey, XLSReport report) {
+        try {
+            return Optional.of(Integer.parseInt(value));
+        } catch (Exception e) {
+            report.addError(lineNumber, errorMessageKey);
+            return Optional.empty();
+        }
+    }
+
+    /**
+     * Add an error into the report if the given value is null or empty
+     *
+     * @param value
+     * @param lineNumber
+     * @param errorMessageKey
+     * @return the given value
+     */
+    public static String requireStringAndReport(String value, int lineNumber, String errorMessageKey, XLSReport report) {
+        if (Strings.isNullOrEmpty(value)) {
+            report.addError(lineNumber, errorMessageKey);
+        }
+        return value;
+    }
+
 
     /**
      * Get original cell when a cell is in a merged range.
