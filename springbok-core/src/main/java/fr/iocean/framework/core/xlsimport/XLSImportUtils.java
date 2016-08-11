@@ -1,6 +1,7 @@
 package fr.iocean.framework.core.xlsimport;
 
 import com.google.common.base.Strings;
+import fr.iocean.framework.core.i18n.MessageService;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -92,5 +93,17 @@ public class XLSImportUtils {
             }
         }
         return cell;
+    }
+
+    /**
+     * Replace the message key by its translation value
+     * @param messageService
+     * @param xlsReport
+     */
+    public static void translate(MessageService messageService, XLSReport xlsReport) {
+        xlsReport.getErrors().forEach(xlsLineError -> {
+            String translate = messageService.getMessage(xlsLineError.getMessage());
+            xlsLineError.setMessage(translate);
+        });
     }
 }
