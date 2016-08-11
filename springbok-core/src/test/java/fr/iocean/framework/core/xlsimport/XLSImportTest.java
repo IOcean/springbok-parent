@@ -55,11 +55,11 @@ public class XLSImportTest {
         XLSLineError xlsLineError = iterator.next();
 
         Assertions.assertThat(xlsLineError.getLineNumber()).isEqualTo(2);
-        Assertions.assertThat(xlsLineError.getMessageKey()).isEqualTo("xlsimport.error.invalidvalue");
+        Assertions.assertThat(xlsLineError.getMessage()).isEqualTo("xlsimport.error.invalidvalue");
 
         xlsLineError = iterator.next();
         Assertions.assertThat(xlsLineError.getLineNumber()).isEqualTo(3);
-        Assertions.assertThat(xlsLineError.getMessageKey()).isEqualTo("xlsimport.error.invalidvalue");
+        Assertions.assertThat(xlsLineError.getMessage()).isEqualTo("xlsimport.error.invalidvalue");
 
         Assertions.assertThat(xlsImportSample.isPostProcessDone()).isTrue();
     }

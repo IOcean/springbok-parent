@@ -1,6 +1,7 @@
 package fr.iocean.framework.core.xlsimport;
 
 import com.google.common.base.Strings;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -25,20 +26,20 @@ public class XLSImportUtils {
         return Strings.emptyToNull(stringCellValue);
     }
 
-    public static Optional<Float> parseFloatAndReport(String value, int lineNumber, String errorMessageKey, XLSReport report) {
+    public static Optional<Float> parseFloatAndReport(String value, int lineNumber, String errorMessage, XLSReport report) {
         try {
             return Optional.of(Float.parseFloat(value));
         } catch (Exception e) {
-            report.addError(lineNumber, errorMessageKey);
+            report.addError(lineNumber, errorMessage);
             return Optional.empty();
         }
     }
 
-    public static Optional<Integer> parseIntegerAndReport(String value, int lineNumber, String errorMessageKey, XLSReport report) {
+    public static Optional<Integer> parseIntegerAndReport(String value, int lineNumber, String errorMessage, XLSReport report) {
         try {
             return Optional.of(Integer.parseInt(value));
         } catch (Exception e) {
-            report.addError(lineNumber, errorMessageKey);
+            report.addError(lineNumber, errorMessage);
             return Optional.empty();
         }
     }
@@ -48,14 +49,29 @@ public class XLSImportUtils {
      *
      * @param value
      * @param lineNumber
-     * @param errorMessageKey
+     * @param errorMessage
      * @return the given value
      */
-    public static String requireStringAndReport(String value, int lineNumber, String errorMessageKey, XLSReport report) {
+    public static String requireStringAndReport(String value, int lineNumber, String errorMessage, XLSReport report) {
         if (Strings.isNullOrEmpty(value)) {
-            report.addError(lineNumber, errorMessageKey);
+            report.addError(lineNumber, errorMessage);
         }
         return value;
+    }
+
+    /**
+     * Add an error into the report if the given email is valid
+     *
+     * @param email
+     * @param lineNumber
+     * @param errorMessage
+     * @return the given email
+     */
+    public static String validEmailAndReport(String email, int lineNumber, String errorMessage, XLSReport report) {
+        if (!EmailValidator.getInstance().isValid(email)) {
+            report.addError(lineNumber, errorMessage);
+        }
+        return email;
     }
 
 

@@ -37,12 +37,12 @@ public class XLSReport implements Serializable {
                 !CollectionUtils.isEmpty(globalErrors);
     }
 
-    public void addError(int lineNumber, String messageKey) {
-        errors.add(new XLSLineError(null, lineNumber, messageKey));
+    public void addError(int lineNumber, String message) {
+        errors.add(new XLSLineError(null, lineNumber, message));
     }
 
-    public void addError(String sheetName, int lineNumber, String messageKey) {
-        errors.add(new XLSLineError(sheetName, lineNumber, messageKey));
+    public void addError(String sheetName, int lineNumber, String message) {
+        errors.add(new XLSLineError(sheetName, lineNumber, message));
     }
 
     public void incrementNumberOfCreatedEntries() {
