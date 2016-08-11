@@ -20,6 +20,10 @@ public class XLSReport implements Serializable {
     protected List<XLSLineError> errors;
     protected List<String> globalErrors;
 
+    public XLSReport() {
+
+    }
+
     public XLSReport(final String fileName) {
         this.fileName = fileName;
         this.numberOfCreatedEntries = 0;
