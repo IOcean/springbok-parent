@@ -2,6 +2,7 @@ package fr.iocean.framework.core.xlsimport;
 
 import com.google.common.collect.Lists;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.util.CollectionUtils;
 
 import java.io.Serializable;
@@ -11,6 +12,7 @@ import java.util.List;
  * Represents a basic report of an import based on a XLS file.
  */
 @Getter
+@Setter
 public class XLSReport implements Serializable {
 
     protected String fileName;
@@ -21,15 +23,15 @@ public class XLSReport implements Serializable {
     protected List<String> globalErrors;
 
     public XLSReport() {
-
-    }
-
-    public XLSReport(final String fileName) {
-        this.fileName = fileName;
         this.numberOfCreatedEntries = 0;
         this.numberOfUpdatedEntries = 0;
         this.errors = Lists.newArrayList();
         this.globalErrors = Lists.newArrayList();
+    }
+
+    public XLSReport(String fileName) {
+        this();
+        this.fileName = fileName;
     }
 
     public boolean hasErrors() {
@@ -53,12 +55,14 @@ public class XLSReport implements Serializable {
         numberOfUpdatedEntries++;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void addGlobalError(String message) {
+        globalErrors.add(message);
     }
 
-    public void addGlobalError(String key) {
-        globalErrors.add(key);
+    public static XLSReport generalError(String error) {
+        XLSReport xlsReport = new XLSReport();
+        xlsReport.addGlobalError(error);
+        return xlsReport;
     }
 
 }

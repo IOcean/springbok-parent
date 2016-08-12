@@ -8,7 +8,9 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellRangeAddress;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class XLSImportUtils {
 
@@ -96,7 +98,8 @@ public class XLSImportUtils {
     }
 
     /**
-     * Replace the message key by its translation value
+     * Translate error messages (inside the xls report itself)
+     *
      * @param messageService
      * @param xlsReport
      */
@@ -105,5 +108,9 @@ public class XLSImportUtils {
             String translate = messageService.getMessage(xlsLineError.getMessage());
             xlsLineError.setMessage(translate);
         });
+
+        List<String> globalErrors =
+                xlsReport.getGlobalErrors().stream().map(messageService::getMessage).collect(Collectors.toList());
+        xlsReport.setGlobalErrors(globalErrors);
     }
 }
