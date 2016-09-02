@@ -37,6 +37,15 @@ public class XLSImportUtils {
             return Optional.empty();
         }
     }
+    
+    public static Optional<Integer> parseFloatAndReportAndRoundInteger(String value, int lineNumber, String errorMessage, XLSReport report) {
+        try {
+            return Optional.of(Math.round(Float.parseFloat(value)));
+        } catch (Exception e) {
+            report.addError(lineNumber, errorMessage);
+            return Optional.empty();
+        }
+    }
 
     public static Optional<Integer> parseIntegerAndReport(String value, int lineNumber, String errorMessage, XLSReport report) {
         try {
