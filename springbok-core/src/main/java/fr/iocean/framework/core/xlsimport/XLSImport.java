@@ -2,6 +2,7 @@ package fr.iocean.framework.core.xlsimport;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -72,13 +73,42 @@ public abstract class XLSImport<R extends XLSReport> {
         computeColumnIndexes(sheet);
         rowIterator = sheet.iterator();
         skipToLineStart(sheet);
-        rowIterator.forEachRemaining(this::processRow);
+        rowIterator.forEachRemaining(this::processNextRow);
     }
 
     private void skipToLineStart(Sheet sheet) {
         for (int i = 0; i < getStartingLine(sheet); i++) {
             rowIterator.next();
         }
+    }
+    
+    private void processNextRow(final Row row) {
+        if (!rowIsBlank(row)) {
+            processRow(row);
+        }
+    }
+    
+    /**
+     * Checks if a given row is blank.
+     *
+     * @param row the row to check
+     * @return false if the row has at least one cell that is not blank, true otherwise
+     */
+    protected boolean rowIsBlank(final Row row) {
+        return
+                !columnIndexes
+                .stream()
+                .map(columnIndex -> rowHasBlankCellAtIndex(row, columnIndex))
+                .filter(cellIsBlank -> cellIsBlank == false)
+                .findAny()
+                .isPresent();
+    }
+    
+    private boolean rowHasBlankCellAtIndex(final Row row, final short index) {
+        boolean cellIsUndefined = row.getCell(index) == null;
+        boolean cellIsBlank = !cellIsUndefined && row.getCell(index).getCellType() == Cell.CELL_TYPE_BLANK;
+
+        return cellIsUndefined || cellIsBlank;
     }
 
     /**
@@ -112,6 +142,11 @@ public abstract class XLSImport<R extends XLSReport> {
      */
     protected abstract Integer getStartingLine(Sheet sheet);
 
+    /**
+     * Business logic to implement for each row,
+     * parsing, error checking should be implemented here.
+     *
+     * @param row
     /**
      * Business logic to implement for each row,
      * parsing, error checking should be implemented here.
