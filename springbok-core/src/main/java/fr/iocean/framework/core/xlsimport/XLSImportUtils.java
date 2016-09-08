@@ -72,7 +72,7 @@ public class XLSImportUtils {
     }
 
     /**
-     * Add an error into the report if the given email is valid
+     * Add an error to the report if the given email is invalid
      *
      * @param email
      * @param lineNumber
@@ -80,7 +80,7 @@ public class XLSImportUtils {
      * @return the given email
      */
     public static String validEmailAndReport(String email, int lineNumber, String errorMessage, XLSReport report) {
-        if (!EmailValidator.getInstance().isValid(email)) {
+        if (email != null && !EmailValidator.getInstance().isValid(email)) {
             report.addError(lineNumber, errorMessage);
         }
         return email;
