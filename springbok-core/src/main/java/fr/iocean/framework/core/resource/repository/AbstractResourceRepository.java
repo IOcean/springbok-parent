@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +15,7 @@ import org.springframework.data.domain.Sort;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 /**
  * Provides entity manager and hibernate session access for custom repositories implementation
  * Provides paginated search support methods
+ *
  * @param <T>
  */
 public abstract class AbstractResourceRepository<T extends PersistentResource> {
@@ -81,6 +83,20 @@ public abstract class AbstractResourceRepository<T extends PersistentResource> {
         return projectionList;
     }
 
+    public List<T> createContentList(PageImpl<Object> ids, Criteria query, Pageable pageable) {
+        if (ids.hasContent()) {
+            query.add(Restrictions.in("id", extractIds(ids)));
+
+            if (pageable.getSort() != null) {
+                addOrder(query, pageable);
+            }
+
+            return query.list();
+        } else {
+            return new ArrayList<>();
+        }
+    }
+
     public List<Object> extractIds(Page<Object> page) {
         return page.getContent().stream().map(object -> {
             if (object instanceof Object[]) {
@@ -89,5 +105,5 @@ public abstract class AbstractResourceRepository<T extends PersistentResource> {
             return object;
         }).collect(Collectors.toList());
     }
-    
+
 }
