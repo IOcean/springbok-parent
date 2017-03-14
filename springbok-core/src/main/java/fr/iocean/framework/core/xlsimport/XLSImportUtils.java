@@ -8,6 +8,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellRangeAddress;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -59,6 +61,19 @@ public class XLSImportUtils {
         
         try {
             return Optional.of(Integer.parseInt(value));
+        } catch (Exception e) {
+            report.addError(lineNumber, errorMessage);
+            return Optional.empty();
+        }
+    }
+    
+    public static Optional<Date> parseDateAndReport(String value, String datePatern, int lineNumber, String errorMessage, XLSReport report) {
+        if (value == null)
+            return Optional.empty();
+        
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat(datePatern);
+            return Optional.of(sdf.parse(value));
         } catch (Exception e) {
             report.addError(lineNumber, errorMessage);
             return Optional.empty();
