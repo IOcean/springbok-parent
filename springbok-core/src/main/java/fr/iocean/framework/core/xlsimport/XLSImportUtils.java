@@ -8,7 +8,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellRangeAddress;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +28,20 @@ public class XLSImportUtils {
         String stringCellValue = cell.getStringCellValue();
 
         return Strings.emptyToNull(stringCellValue);
+    }
+    
+    public static Date parseDateCellAndReport(Row row, int columnNumber, int lineNumber, String errorMessage, XLSReport report) {
+        Cell cell = getOriginCell(row.getCell(columnNumber));
+        if (cell == null) {
+            return null;
+        }
+
+        try {
+            return cell.getDateCellValue();
+        } catch (Exception e) {
+            report.addError(lineNumber, errorMessage);
+            return null;
+        }
     }
 
     public static Optional<Float> parseFloatAndReport(String value, int lineNumber, String errorMessage, XLSReport report) {
@@ -61,19 +74,6 @@ public class XLSImportUtils {
         
         try {
             return Optional.of(Integer.parseInt(value));
-        } catch (Exception e) {
-            report.addError(lineNumber, errorMessage);
-            return Optional.empty();
-        }
-    }
-    
-    public static Optional<Date> parseDateAndReport(String value, String datePatern, int lineNumber, String errorMessage, XLSReport report) {
-        if (value == null)
-            return Optional.empty();
-        
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat(datePatern);
-            return Optional.of(sdf.parse(value));
         } catch (Exception e) {
             report.addError(lineNumber, errorMessage);
             return Optional.empty();
