@@ -6,7 +6,9 @@ import lombok.Setter;
 import org.springframework.util.CollectionUtils;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Represents a basic report of an import based on a XLS file.
@@ -18,6 +20,7 @@ public class XLSReport implements Serializable {
     protected String fileName;
     protected int numberOfCreatedEntries;
     protected int numberOfUpdatedEntries;
+    protected int numberOfLines;
 
     protected List<XLSLineError> errors;
     protected List<String> globalErrors;
@@ -25,6 +28,7 @@ public class XLSReport implements Serializable {
     public XLSReport() {
         this.numberOfCreatedEntries = 0;
         this.numberOfUpdatedEntries = 0;
+        this.numberOfLines = 0;
         this.errors = Lists.newArrayList();
         this.globalErrors = Lists.newArrayList();
     }
@@ -32,6 +36,33 @@ public class XLSReport implements Serializable {
     public XLSReport(String fileName) {
         this();
         this.fileName = fileName;
+    }
+    
+    
+    public void incrementNumberOfCreatedEntries() {
+        numberOfCreatedEntries++;
+    }
+
+    public void incrementNumberOfUpdatedEntries() {
+        numberOfUpdatedEntries++;
+    }
+    
+    public void incrementNumberOfTotalLines() {
+        numberOfLines++;
+    }
+
+    public int getNumberOfValidLines() {
+        return numberOfLines - getNumberOfInvalidLines();
+    }
+    
+    public int getNumberOfInvalidLines() {
+        Set<Integer> dinstinctLines = new HashSet<>();
+        
+        for (XLSLineError error : errors) {
+            dinstinctLines.add(error.getLineNumber());
+        }
+        
+        return dinstinctLines.size();
     }
 
     public boolean hasErrors() {
@@ -46,15 +77,7 @@ public class XLSReport implements Serializable {
     public void addError(String sheetName, int lineNumber, String message) {
         errors.add(new XLSLineError(sheetName, lineNumber, message));
     }
-
-    public void incrementNumberOfCreatedEntries() {
-        numberOfCreatedEntries++;
-    }
-
-    public void incrementNumberOfUpdatedEntries() {
-        numberOfUpdatedEntries++;
-    }
-
+    
     public void addGlobalError(String message) {
         globalErrors.add(message);
     }
