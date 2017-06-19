@@ -8,6 +8,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellRangeAddress;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -39,8 +41,16 @@ public class XLSImportUtils {
         try {
             return cell.getDateCellValue();
         } catch (Exception e) {
-            report.addError(lineNumber, errorMessage);
-            return null;
+            cell.setCellType(Cell.CELL_TYPE_STRING);
+            String stringCellValue = cell.getStringCellValue();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            
+            try {
+                return sdf.parse(stringCellValue);
+            } catch (ParseException pe) {
+                report.addError(lineNumber, errorMessage);
+                return null;
+            }
         }
     }
 
